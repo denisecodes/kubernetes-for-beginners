@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # allows manual runs
 
 jobs:
-  build-and-push:
+  build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
