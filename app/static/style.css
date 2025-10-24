@@ -1,0 +1,11 @@
+body {
+  background: #f9fafc;
+}
+h1 {
+  color: #0078d7;
+}
+table {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}

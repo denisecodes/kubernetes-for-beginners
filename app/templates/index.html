@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/deploy" method="post" class="mb-4">
+    <button class="btn btn-primary btn-lg">Deploy New Pod</button>
+</form>
+
+{% if pods %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Pod Name</th>
+            <th>Node</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pod in pods %}
+        <tr>
+            <td>{{ pod.name }}</td>
+            <td>{{ pod.node }}</td>
+            <td>{{ pod.status }}</td>
+            <td><a href="/delete/{{ pod.name }}" class="btn btn-danger btn-sm">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No pods deployed yet. Hit the button above to start!</p>
+{% endif %}
+{% endblock %}

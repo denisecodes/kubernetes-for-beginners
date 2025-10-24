@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeguess
+spec:
+  type: LoadBalancer
+  selector:
+    app: kubeguess
+  ports:
+  - port: 80
+    targetPort: 5000

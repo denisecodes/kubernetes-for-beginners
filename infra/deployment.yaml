@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeguess
+  labels:
+    app: kubeguess
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubeguess
+  template:
+    metadata:
+      labels:
+        app: kubeguess
+    spec:
+      containers:
+        - name: kubeguess
+          # Change denisecodes to your own github username
+          image: ghcr.io/denisecodes/kubeguess:latest
+          ports:
+            - containerPort: 5000
