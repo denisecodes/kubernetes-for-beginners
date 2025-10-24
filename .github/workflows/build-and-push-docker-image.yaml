@@ -27,7 +27,7 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/kubeguess:latest
-          docker build -t $IMAGE_NAME .
+          docker build -t $IMAGE_NAME -f app/Dockerfile .
 
       - name: Push Docker image
         run: |
