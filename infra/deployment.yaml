@@ -19,6 +19,6 @@ spec:
       containers:
         - name: kubeguess
           # Change denisecodes to your own github username
-          image: ghcr.io/denisecodes/kubeguess:latest
+          image: ghcr.io/denisecodes/kubeguess:v1
           ports:
             - containerPort: 5000
