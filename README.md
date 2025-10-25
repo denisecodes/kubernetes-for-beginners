@@ -47,8 +47,8 @@ kubectl get nodes
 ### ⚙️ After Setting Up
 
 Once your cluster is up:
-	•	Make sure kubectl is configured to point to your local cluster.
-	•	You can confirm this by running:
+- Make sure kubectl is configured to point to your local cluster.
+- You can confirm this by running:
 
 ```bash
 kubectl config current-context
@@ -108,13 +108,13 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ### 5️⃣ Log In to Argo CD
 
-Option 1 — Web UI
+**Web UI**
 1.	Open https://localhost:8080
 2.	Username: admin
 3.	Password: (from step 4)
 
 
-6️⃣ Connect Your GitHub Repository
+### 6️⃣ Connect Your GitHub Repository
 
 You can connect your repository in two ways:
 
