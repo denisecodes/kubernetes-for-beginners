@@ -57,19 +57,19 @@ kubectl config current-context
 If it shows something like minikube or docker-desktop, you’re good to go!
 
 
-# 🚀 Setting Up Argo CD Locally to Deploy GitHub Infrastructure Files
+## 🚀 Setting Up Argo CD Locally to Deploy GitHub Infrastructure Files
 
 You can get **Argo CD** running locally to deploy your **GitHub-hosted infrastructure files** on a local Kubernetes cluster (like **Kind** or **Minikube**) by following these steps.  
 
 
-## 1️⃣ Prerequisites
+### 1️⃣ Prerequisites
 
 - 🧩 Local Kubernetes cluster running (**Kind**, **Minikube**, or **Docker Desktop Kubernetes**)
 - ⚙️ `kubectl` installed and configured to point to your cluster: https://kubernetes.io/docs/tasks/tools/
 - 🌐 Your **GitHub repository** URL with your infrastructure manifests ready
 
 
-## 2️⃣ Install Argo CD on Your Cluster
+### 2️⃣ Install Argo CD on Your Cluster
 
 Create a namespace for Argo CD and install the official manifests:
 
@@ -81,7 +81,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ✅ This installs Argo CD in the argocd namespace.
 
 
-## 3️⃣ Expose the Argo CD API Server Locally
+### 3️⃣ Expose the Argo CD API Server Locally
 
 For local testing, use port-forwarding:
 
@@ -96,7 +96,7 @@ https://localhost:8080
 ⚠️ You may need to accept a browser warning because Argo CD uses a self-signed certificate.
 
 
-## 4️⃣ Get the Argo CD Admin Password
+### 4️⃣ Get the Argo CD Admin Password
 
 By default, the username is admin.
 You can get the initial password with either of the following commands:
@@ -106,7 +106,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 
 
-## 5️⃣ Log In to Argo CD
+### 5️⃣ Log In to Argo CD
 
 Option 1 — Web UI
 1.	Open https://localhost:8080
@@ -118,13 +118,13 @@ Option 1 — Web UI
 
 You can connect your repository in two ways:
 
-## Using the Argo CD UI
+### Using the Argo CD UI
 1.	Go to Settings → Repositories → Connect Repo.
 2.	Enter your GitHub repository URL.
 3.	If your repo is private, provide a personal access token with repo and read:packages permissions.
 
 
-## 7️⃣ Create an Argo CD Application
+### 7️⃣ Create an Argo CD Application
 
 First create the namespace to host the application or you can try getting Argocd to create it for you through their UI in the next step:
 ```bash
@@ -136,7 +136,7 @@ An Application in Argo CD tells it:
 - Which folder (path) contains the manifests
 - hich cluster and namespace to deploy to
 
-## Using the Argo CD UI
+### Using the Argo CD UI
 1. For Project select default
 2. For Cluster select in-cluster
 3. For namespace, use kubeguess
@@ -148,7 +148,34 @@ An Application in Argo CD tells it:
 7. For Sync Policy, check enable auto-sync
 
 
-### 8️⃣ Verify the Deployment
+### 8️⃣ Create a GitHub token to allow Argocd to access the Docker image stored on GitHub Registry
+
+**Official documentation:**  
+👉 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic 
+
+1. Open: **Settings → Developer settings → Personal access tokens → Tokens (classic)** on GitHub.  
+
+2. Click **Generate new token (classic)**.
+
+3. Give it a descriptive name (example: `ghcr-pull-for-kubeguess-demo`).
+
+4. **Select scopes** (minimum required for pulling images from GHCR):
+   - `read:packages` — **required** to pull container image
+   - If your image is in a private repo and you also need repo metadata access, you can add `repo`, but for GHCR image pulls `read:packages` is the key scope.
+
+5. Generate the token and **copy it** now. You will not be able to see it again in GitHub.
+
+
+```bash
+kubectl create secret docker-registry ghcr-secret \
+  --docker-server=ghcr.io \
+  --docker-username=<your-github-username> \
+  --docker-password=<your-github-pat-token> \
+  --docker-email=<your-github-email>> \
+  -n kubeguess
+```
+
+### 9️⃣ Verify the Deployment
 
 Check that your Kubernetes resources were created successfully:
 
